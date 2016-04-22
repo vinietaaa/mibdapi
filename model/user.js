@@ -33,10 +33,10 @@ user.prototype.handleRoutes = function(router,connection) {
         connection.query(query, function(err,orang){
             if(err){
                 res.json({"message":query});
-            }
+            ri}
             else{
                 if (orang.length <= 0){                    
-                    res.json({"message":"login gagal"});
+                    res.json({" ":"login gagal"});
                 }
                 else{                    
                     res.json({"message":"login berhasil"});
