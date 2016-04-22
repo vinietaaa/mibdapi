@@ -45,7 +45,32 @@ user.prototype.handleRoutes = function(router,connection) {
         })
     })
     
-    
+    router.post("/delete", function(req, res){
+        var id = req.body.id;
+        var querySelect = "SELECT * FROM `orang` WHERE Id = '"+id+"'";
+        connection.query(querySelect, function(err,orang){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                if(orang.length<=0){
+                    res.json({" ":"delete gagal"});
+                }
+                else{
+                    
+        var query = "DELETE FROM `orang` WHERE Id = '"+id+"'";
+                     connection.query(query, function(err,del){
+                         if(err){
+                             res.json({"message":query});
+                         }
+                         else{
+                             res.json({"message":"delete berhasil"});
+                         }
+                     })
+                }
+            }
+        })
+    })
 }
 
 module.exports = user;
