@@ -111,12 +111,10 @@ user.prototype.handleRoutes = function(router,connection) {
         var id = req.body.id;
         var nama = req.body.nama;
         var alamat = req.body.alamat;
-        var id_sewa = req.body.id_sewa;
-        var nomor_hp = req.body.nomor_hp;
         var username = req.body.username;
         var password = req.body.password;
         var role = req.body.role;
-        var query = "INSERT INTO `user`(`Id`, `Nama`, `Alamat`, `Username`, `Password`, `role`, `status`) VALUES ('" + id +"','" + nama +"','" + alamat +"','" + username +"','" + password +"','" + role +"','"+status+"')";
+        var query = "INSERT INTO `user`(`Id`, `Nama`, `Alamat`, `Username`, `Password`, `role`) VALUES ('" + id +"','" + nama +"','" + alamat +"','" + username +"','" + password +"','" + role +"')";
         
         connection.query(query, function(err, orang){
             if(err){
@@ -132,8 +130,6 @@ user.prototype.handleRoutes = function(router,connection) {
         var id = req.body.id;
         var nama = req.body.nama;
         var alamat = req.body.alamat;
-        var id_sewa = req.body.id_sewa;
-        var nomor_hp = req.body.nomor_hp;
         var username = req.body.username;
         var password = req.body.password;
         var role = req.body.role;
