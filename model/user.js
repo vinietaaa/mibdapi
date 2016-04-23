@@ -13,7 +13,7 @@ user.prototype.handleRoutes = function(router,connection) {
     
     router.post("/semuaOrang",function(req, res){
         var id = req.body.id;
-        var query = "SELECT * FROM `orang`";
+        var query = "SELECT * FROM `user`";
 
         connection.query(query, function(err,orang){
             if(err){
@@ -28,18 +28,54 @@ user.prototype.handleRoutes = function(router,connection) {
     router.post("/login",function(req, res){
         var username = req.body.username;
         var password = req.body.password;
-        var query = "SELECT * FROM `orang` WHERE username = '"+ username+"' AND password = '" +password+"'";
+        var query = "SELECT * FROM `user` WHERE username = '"+ username+"' AND password = '" +password+"'";
 
         connection.query(query, function(err,orang){
             if(err){
                 res.json({"message":query});
-            ri}
+            }
             else{
                 if (orang.length <= 0){                    
                     res.json({" ":"login gagal"});
                 }
-                else{                    
-                    res.json({"message":"login berhasil"});
+                else{                                    
+                    var query2 = "UPDATE `user` SET `status` = 'active' WHERE username = '"+username+"'";
+                    connection.query(query2,function(err,user){
+                        if(err){
+                            res.json({"message":query2});
+                        }
+                        else{
+                            res.json({"message":"login berhasil"});
+                        }
+                    })
+                }
+            }
+        })
+    })
+    
+    router.post("/logout",function(req, res){
+        var username = req.body.username;
+        var password = req.body.password;
+        var query = "SELECT * FROM `user` WHERE username = '"+ username+"' AND password = '" +password+"'";
+
+        connection.query(query, function(err,orang){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                if (orang.length <= 0){                    
+                    res.json({" ":"logout gagal"});
+                }
+                else{                                    
+                    var query2 = "UPDATE `user` SET `status` = '' WHERE username = '"+username+"'";
+                    connection.query(query2,function(err,user){
+                        if(err){
+                            res.json({"message":query2});
+                        }
+                        else{
+                            res.json({"message":"logout berhasil"});
+                        }
+                    })
                 }
             }
         })
@@ -47,7 +83,7 @@ user.prototype.handleRoutes = function(router,connection) {
     
     router.post("/delete", function(req, res){
         var id = req.body.id;
-        var querySelect = "SELECT * FROM `orang` WHERE Id = '"+id+"'";
+        var querySelect = "SELECT * FROM `user` WHERE Id = '"+id+"'";
         connection.query(querySelect, function(err,orang){
             if(err){
                 res.json({"message":query});
@@ -58,7 +94,7 @@ user.prototype.handleRoutes = function(router,connection) {
                 }
                 else{
                     
-        var query = "DELETE FROM `orang` WHERE Id = '"+id+"'";
+        var query = "DELETE FROM `user` WHERE Id = '"+id+"'";
                      connection.query(query, function(err,del){
                          if(err){
                              res.json({"message":query});
@@ -71,6 +107,66 @@ user.prototype.handleRoutes = function(router,connection) {
             }
         })
     })
+    
+    router.post("/insert", function(req,res){
+        var id = req.body.id;
+        var nama = req.body.nama;
+        var alamat = req.body.alamat;
+        var id_sewa = req.body.id_sewa;
+        var nomor_hp = req.body.nomor_hp;
+        var username = req.body.username;
+        var password = req.body.password;
+        var role = req.body.role;
+        var query = "INSERT INTO `user`(`Id`, `Nama`, `Alamat`, `Username`, `Password`, `role`, `status`) VALUES ('" + id +"','" + nama +"','" + alamat +"','" + username +"','" + password +"','" + role +"','"+status+"')";
+        
+        connection.query(query, function(err, orang){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                res.json({"message":"insert berhasil"});
+            }
+        })
+    })
+    
+    router.post("/update", function(req,res){
+        var id = req.body.id;
+        var nama = req.body.nama;
+        var alamat = req.body.alamat;
+        var id_sewa = req.body.id_sewa;
+        var nomor_hp = req.body.nomor_hp;
+        var username = req.body.username;
+        var password = req.body.password;
+        var role = req.body.role;
+        var status = req.body.status;
+        
+        var query = "UPDATE `user` SET `Nama`= ?,`Alamat`=?,`Username`=?,`Password`=?, `role`=?, `status`=? WHERE `Id`=?";
+        var table = [nama, alamat, username, password, role, status, id];
+        query= mysql.format(query,table);
+        
+        connection.query(query,function(err,orang){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                res.json({"message":"update berhasil"});
+            }
+        })
+    })
+    
+    router.post("/checkStatus", function(req,res){
+        var query = "SELECT `username` FROM `user` WHERE `status` = 'active'";
+        
+        connection.query(query,function(err,user){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                res.json({"message":user});
+            }
+        })
+    })
+       
 }
 
 module.exports = user;
