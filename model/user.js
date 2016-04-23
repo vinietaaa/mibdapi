@@ -55,8 +55,7 @@ user.prototype.handleRoutes = function(router,connection) {
     
     router.post("/logout",function(req, res){
         var username = req.body.username;
-        var password = req.body.password;
-        var query = "SELECT * FROM `user` WHERE username = '"+ username+"' AND password = '" +password+"'";
+        var query = "SELECT * FROM `user` WHERE username = '"+ username+"'";
 
         connection.query(query, function(err,orang){
             if(err){
