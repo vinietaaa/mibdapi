@@ -6,6 +6,8 @@ var express = require("express"),
 //tambah model
 var bookingModel = require("./model/booking.js"); 
 var userModel = require("./model/user.js");
+var alatModel = require("./model/alat.js");
+var bundleModel = require("./model/bundle.js");
 // end of require model
 
 var app = express();
@@ -68,6 +70,8 @@ connect.prototype.configureExpress = function(connection) {
         //tambah model
         var booking = new bookingModel(router,connection);
         var user = new userModel(router, connection);
+        var alat = new alatModel(router, connection);
+        var bundle = new bundleModel(router, connection);
         // end of calling model
 
         self.startServer();
