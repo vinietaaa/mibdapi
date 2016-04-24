@@ -24,12 +24,12 @@ alat.prototype.handleRoutes = function(router,connection) {
     router.post("/deleteTool", function(req, res){
         var id = req.body.Id_tool;
         var querySelect = "SELECT * FROM `tool` WHERE Id_tool = '"+id+"'";
-        connection.query(querySelect, function(err,alat){
+        connection.query(querySelect, function(err,tool){
             if(err){
                 res.json({"message":query});
             }
             else{
-                if(alat.length<=0){
+                if(tool.length<=0){
                     res.json({" ":"delete gagal"});
                 }
                 else{
@@ -53,11 +53,11 @@ alat.prototype.handleRoutes = function(router,connection) {
         var name_tool = req.body.Name_tool;
         var type = req.body.Type;
         var price = req.body.Price;
-        var numOfTool = req.body.NumOfTool;
+        var stock = req.body.Stock;
         var status = req.body.Status;
-        var query = "INSERT INTO `tool`(`Id_tool`, `Name_tool`, `Type`, `Price`, `NumOfTool`, `Status`) VALUES ('" + id_tool +"','" + name_tool +"','" + type +"','" + price +"','" + numOfTool +"','" + status +"')";
+        var query = "INSERT INTO `tool`(`Id_tool`, `Name_tool`, `Type`, `Price`, `Stock`, `Status`) VALUES ('" + id_tool +"','" + name_tool +"','" + type +"','" + price +"','" + stock +"','" + status +"')";
         
-        connection.query(query, function(err, alat){
+        connection.query(query, function(err, tool){
             if(err){
                 res.json({"message":query});
             }
@@ -72,19 +72,32 @@ alat.prototype.handleRoutes = function(router,connection) {
         var name_tool = req.body.Name_tool;
         var type = req.body.Type;
         var price = req.body.Price;
-        var numOfTool = req.body.NumOfTool;
+        var stock = req.body.Stock;
         var status = req.body.Status;
         
-        var query = "UPDATE `tool` SET `Name_tool`=?,`Type`=?,`Price`=?,`NumOfTool`=?,`Status`=? WHERE `Id_tool`=?"
-        var table = [name_tool, type, price, numOfTool, status, id_tool];
+        var query = "UPDATE `tool` SET `Name_tool`=?,`Type`=?,`Price`=?,`Stock`=?,`Status`=? WHERE `Id_tool`=?"
+        var table = [name_tool, type, price, stock, status, id_tool];
         query= mysql.format(query,table);
         
-        connection.query(query,function(err,orang){
+        connection.query(query,function(err,tool){
             if(err){
                 res.json({"message":query});
             }
             else{
                 res.json({"message":"update berhasil"});
+            }
+        })
+    })
+    
+    router.post("/selectTool", function(req,res){
+        var query = "SELECT `Id_tool`, `Name_tool`, `Stock` FROM `tool` WHERE Date = ";
+        
+        connection.query(query,function(err,tool){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                res.json({"message":tool});
             }
         })
     })
