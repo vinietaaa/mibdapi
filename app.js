@@ -37,7 +37,7 @@ connect.prototype.connectMysql = function() {
       var pool = mysql.createPool({
          sconnectionLimit : 100,
          multipleStatements: true,
-         host     : 'localhost',
+         host     : '127.0.0.1',
          user     : 'root',
          password : '',
          database : 'penyewaanalatcamping',

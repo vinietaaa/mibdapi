@@ -55,7 +55,7 @@ alat.prototype.handleRoutes = function(router,connection) {
         var price = req.body.Price;
         var stock = req.body.Stock;
         var status = req.body.Status;
-        var query = "INSERT INTO `tool`(`Id_tool`, `Name_tool`, `Type`, `Price`, `Stock`, `Status`) VALUES ('" + id_tool +"','" + name_tool +"','" + type +"','" + price +"','" + stock +"','" + status +"')";
+        var query = "INSERT INTO `tool`(`Id_tool`, `Name_tool`, `Type`, `Price`, `Stock`) VALUES ('" + id_tool +"','" + name_tool +"','" + type +"','" + price +"','" + stock +"')";
         
         connection.query(query, function(err, tool){
             if(err){
@@ -75,7 +75,7 @@ alat.prototype.handleRoutes = function(router,connection) {
         var stock = req.body.Stock;
         var status = req.body.Status;
         
-        var query = "UPDATE `tool` SET `Name_tool`=?,`Type`=?,`Price`=?,`Stock`=?,`Status`=? WHERE `Id_tool`=?"
+        var query = "UPDATE `tool` SET `Name_tool`=?,`Type`=?,`Price`=?,`Stock`=? WHERE `Id_tool`=?"
         var table = [name_tool, type, price, stock, status, id_tool];
         query= mysql.format(query,table);
         
