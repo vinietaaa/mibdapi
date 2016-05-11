@@ -88,11 +88,25 @@ alat.prototype.handleRoutes = function(router,connection) {
         })
     })
     
-    router.post("/selectToolByDate", function(req,res){
-        var date = req.body.Rental_date;
-        var query = "SELECT `Id_tool`, `Name_tool`, `Type`, `Price`, `Stock` FROM `tool` JOIN `tool_transaction` ON tool.Id_tool = tool_transaction.Id_tool WHERE `date`='"+date+"'";
+    router.post("/checkToolByDate", function(req,res){
+        var date1 = req.body.Rental_date1;
+        var date2 = req.body.Rental_date2;
+        var query = "SELECT * FROM `tool_transaction` JOIN `tool` ON tool_transaction.Id_tool = tool.Id_tool WHERE `Rental_date`>='"+date1+"' AND `Rental_date` <='"+date2+"'";
         
         
+        connection.query(query,function(err,tool){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                res.json({"message":tool});
+            }
+        })
+    })
+    
+    router.post("/checkToolByPeriode", function(req,res){
+        var date1 = req.body.Rental_date1;
+        var query = "SELECT * FROM `tool_transaction` JOIN `tool` ON tool_transaction.Id_tool = tool.Id_tool WHERE DATEPART(MONTH,'"+date1+"') = DATEPART(MONTH, DATEADD(MONTH, -1, getdate()))";
         connection.query(query,function(err,tool){
             if(err){
                 res.json({"message":query});

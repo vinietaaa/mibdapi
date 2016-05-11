@@ -65,6 +65,8 @@ transaksiBundle.prototype.handleRoutes = function(router,connection) {
             }
         })
     })
+    
+    
 };
 
 module.exports = transaksiBundle;
