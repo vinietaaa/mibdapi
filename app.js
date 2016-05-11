@@ -8,6 +8,8 @@ var bookingModel = require("./model/booking.js");
 var userModel = require("./model/user.js");
 var alatModel = require("./model/alat.js");
 var bundleModel = require("./model/bundle.js");
+var penyewaModel = require("./model/penyewa.js");
+var transaksiAlatModel = require("./model/transaksiAlat.js");
 // end of require model
 
 var app = express();
@@ -37,7 +39,7 @@ connect.prototype.connectMysql = function() {
       var pool = mysql.createPool({
          sconnectionLimit : 100,
          multipleStatements: true,
-         host     : '127.0.0.1',
+         host     : 'localhost',
          user     : 'root',
          password : '',
          database : 'penyewaanalatcamping',
@@ -72,6 +74,8 @@ connect.prototype.configureExpress = function(connection) {
         var user = new userModel(router, connection);
         var alat = new alatModel(router, connection);
         var bundle = new bundleModel(router, connection);
+        var penyewa = new penyewaModel(router, connection);
+        var transaksiAlat = new transaksiAlatModel(router, connection);
         // end of calling model
 
         self.startServer();

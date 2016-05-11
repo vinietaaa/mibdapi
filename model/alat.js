@@ -65,18 +65,17 @@ alat.prototype.handleRoutes = function(router,connection) {
                 res.json({"message":"insert berhasil"});
             }
         })
-    })
+    })    
     
-    router.post("/updateTool", function(req,res){
+        router.post("/updateTool", function(req,res){
         var id_tool = req.body.Id_tool;
         var name_tool = req.body.Name_tool;
         var type = req.body.Type;
         var price = req.body.Price;
         var stock = req.body.Stock;
-        var status = req.body.Status;
         
-        var query = "UPDATE `tool` SET `Name_tool`=?,`Type`=?,`Price`=?,`Stock`=? WHERE `Id_tool`=?"
-        var table = [name_tool, type, price, stock, status, id_tool];
+        var query = "UPDATE `tool` SET `Name_tool`=?,`Type`=?,`Price`=?,`Stock`=`Stock`+? WHERE `Id_tool`=?"
+        var table = [name_tool, type, price, stock, id_tool];  
         query= mysql.format(query,table);
         
         connection.query(query,function(err,tool){
@@ -89,8 +88,10 @@ alat.prototype.handleRoutes = function(router,connection) {
         })
     })
     
-    router.post("/selectTool", function(req,res){
-        var query = "SELECT `Id_tool`, `Name_tool`, `Stock` FROM `tool` WHERE Date = ";
+    router.post("/selectToolByDate", function(req,res){
+        var date = req.body.Rental_date;
+        var query = "SELECT `Id_tool`, `Name_tool`, `Type`, `Price`, `Stock` FROM `tool` JOIN `tool_transaction` ON tool.Id_tool = tool_transaction.Id_tool WHERE `date`='"+date+"'";
+        
         
         connection.query(query,function(err,tool){
             if(err){

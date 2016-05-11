@@ -161,7 +161,8 @@ user.prototype.handleRoutes = function(router,connection) {
             }
         })
     })
-       
+    
+          
 }
 
 module.exports = user;
