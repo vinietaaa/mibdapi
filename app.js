@@ -10,6 +10,7 @@ var alatModel = require("./model/alat.js");
 var bundleModel = require("./model/bundle.js");
 var penyewaModel = require("./model/penyewa.js");
 var transaksiAlatModel = require("./model/transaksiAlat.js");
+var transaksiBundleModel = require("./model/transaksiBundle.js");
 // end of require model
 
 var app = express();
@@ -71,11 +72,12 @@ connect.prototype.configureExpress = function(connection) {
         // calling model
         //tambah model
         var booking = new bookingModel(router,connection);
-        var user = new userModel(router, connection);
+    var user = new userModel(router, connection);
         var alat = new alatModel(router, connection);
         var bundle = new bundleModel(router, connection);
         var penyewa = new penyewaModel(router, connection);
         var transaksiAlat = new transaksiAlatModel(router, connection);
+        var transaksiBundle = new transaksiBundleModel(router, connection);
         // end of calling model
 
         self.startServer();

@@ -83,6 +83,50 @@ bundle.prototype.handleRoutes = function(router,connection) {
         })
     })
     
+    router.post("/updateStock", function(req,res){
+        var id_bundle = req.body.Id_bundle;
+        var id_tool = req.body.Id_tool;
+        
+        var query1 = "SELECT `Id_tool` FROM `bundle_details` WHERE `Id_bundle`='"+id_bundle+"'";
+        connection.query(query1,function(err,bundle){
+            if(err){
+                res.json({"message":query1});
+            }
+            else{
+                var stockBundle = 100;
+                var i = 0;
+                if(Number(i)<Number(bundle.length)-1){
+                    if(Number(bundle1[0].stock)<=Number(stockBundle)){
+                        stockBundle=bundle1[0].stock;
+                        res.json({"length":stockBundle});
+                    } 
+                }else{
+                    res.json({"length":stockBundle});
+                }
+//                res.json(bundle.length-1);
+//                for(var i=0; i<bundle.length; i++){
+//                    var query2 = "SELECT `stock` FROM `tool` WHERE Id_tool='"+bundle[0].Id_tool+"'";
+//                    connection.query(query2,function(err,bundle1){
+//                        if(err){
+//                            res.json({"message":query2});
+//                        }
+//                        else{
+//                            if(Number(i)<Number(bundle.length)-1){                             
+//                                if(Number(bundle1[0].stock)<=Number(stockBundle)){
+//                                    stockBundle=bundle1[0].stock;
+//                                }   
+//                            }else{
+//                                res.json({"length":stockBundle});
+//                            }
+//                        }
+//                    })
+//                }
+                
+            }
+        })
+        
+    })
+    
         router.post("/insertBundleDetails", function(req,res){
         var id_bundle = req.body.Id_bundle;
         var id_tool = req.body.Id_tool;
@@ -94,9 +138,12 @@ bundle.prototype.handleRoutes = function(router,connection) {
             }
             else{
                 res.json({"message":"insert berhasil"});
+                
             }
         })
     })
+        
+        
         
         router.post("/allBundleDetails", function(req,res){
         var query = "SELECT * FROM `bundle_details`";
