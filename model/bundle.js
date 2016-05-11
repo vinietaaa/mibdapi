@@ -143,8 +143,6 @@ bundle.prototype.handleRoutes = function(router,connection) {
         })
     })
         
-        
-        
         router.post("/allBundleDetails", function(req,res){
         var query = "SELECT * FROM `bundle_details`";
         
@@ -154,6 +152,22 @@ bundle.prototype.handleRoutes = function(router,connection) {
             }
             else{
                 res.json({"message":bundle});
+            }
+        })
+    })
+        
+        router.post("/checkBundleByDate", function(req,res){
+        var date1 = req.body.Rental_date1;
+        var date2 = req.body.Rental_date2;
+        var query = "SELECT * FROM `bundle_transaction` JOIN `bundle` ON bundle_transaction.Id_bundle = bundle.Id_bundle WHERE `Rental_date`>='"+date1+"' AND `Rental_date` <='"+date2+"'";
+        
+        
+        connection.query(query,function(err,tool){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                res.json({"message":tool});
             }
         })
     })

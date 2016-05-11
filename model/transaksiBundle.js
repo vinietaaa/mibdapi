@@ -14,21 +14,35 @@ transaksiBundle.prototype.handleRoutes = function(router,connection) {
         var rental_time = req.body.Rental_time;
         var query = "INSERT INTO `bundle_transaction`(`Id_bundle`, `Id_renter`, `NumOfRent`, `Rental_time`) VALUES ('" + id_bundle +"','" + id_renter +"','" + numOfRent +"','" + rental_time +"')";
         
-        var queryUpdate = "UPDATE `bundle` SET `Stock`=`Stock`-? WHERE `Id_bundle`=?"
-        var table = [numOfRent, id_bundle];  
-        queryUpdate= mysql.format(queryUpdate,table);
+        var queryUpdate = "UPDATE `bundle` SET `Stock`=`Stock`-? WHERE `Id_bundle`=?"        
             
+        var query2 = "SELECT `Stock` FROM `bundle` WHERE `Id_bundle` ='" +id_bundle+"'";
         connection.query(query, function(err, tool){
             if(err){
                 res.json({"message":query});
             }
             else{
-                connection.query(queryUpdate, function(err, tool2){
+                connection.query(query2, function(err, tool3){
                     if(err){
-                        res.json({"message":queryUpdate});
+                        res.json({"message":query2});
                     }
                     else{
-                        res.json({"message":"insert berhasil"});
+                        if(tool3[0].Stock<=0){
+                            var table = [0, id_bundle];  
+                            queryUpdate= mysql.format(queryUpdate,table);   
+                        }else{
+                            var table = [numOfRent, id_bundle];  
+                            queryUpdate= mysql.format(queryUpdate,table);
+                        }
+                        connection.query(queryUpdate, function(err, tool2){
+                            if(err){
+                                res.json({"message":queryUpdate});
+                            }
+                            else{
+                                res.json({"message":"insert berhasil"});
+
+                            }
+                        })
                     }
                 })
             }               

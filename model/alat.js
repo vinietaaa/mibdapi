@@ -105,8 +105,26 @@ alat.prototype.handleRoutes = function(router,connection) {
     })
     
     router.post("/checkToolByPeriode", function(req,res){
-        var date1 = req.body.Rental_date1;
-        var query = "SELECT * FROM `tool_transaction` JOIN `tool` ON tool_transaction.Id_tool = tool.Id_tool WHERE DATEPART(MONTH,'"+date1+"') = DATEPART(MONTH, DATEADD(MONTH, -1, getdate()))";
+//        yyyy/mm/dd
+        Date.prototype.thismonth = function (){
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth()+1).toString();
+            var dd = this.getDate().toString();
+            return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]);
+        }
+        Date.prototype.lastmonth = function (){
+            var yyyy = this.getFullYear().toString();
+            var mm = (this.getMonth()).toString();
+            var dd = this.getDate().toString();
+            return yyyy +'-'+ (mm[1]?mm:"0"+mm[0]) +'-'+ (dd[1]?dd:"0"+dd[0]);
+        }
+        var today = new Date();
+        var this_month = today.thismonth();
+        var last_month = today.lastmonth();
+        
+//        res.json(last_month+" "+this_month);
+        var query = "SELECT * FROM `tool_transaction` JOIN `tool` ON tool_transaction.Id_tool = tool.Id_tool WHERE `Rental_date` >= '"+last_month+"' AND `Rental_date` <= '"+this_month+"'";
+        
         connection.query(query,function(err,tool){
             if(err){
                 res.json({"message":query});

@@ -163,7 +163,19 @@ user.prototype.handleRoutes = function(router,connection) {
         })
     })
     
-          
+    router.post("/createBill", function(req,res){
+        var id_renter = req.body.Id_renter;
+        var query = "SELECT `Name_tool`, `NumOfRent`, `Price` FROM `tool_transaction` JOIN `tool` ON tool_transaction.Id_tool = tool.Id_tool WHERE Id_renter ='"+id_renter+"'";
+        
+        connection.query(query,function(err,bill){
+            if(err){
+                res.json({"message":query});
+            }
+            else{
+                res.json({"message":bill});
+            }
+        })
+    })      
 }
 
 module.exports = user;
