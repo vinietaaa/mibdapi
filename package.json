@@ -12,9 +12,13 @@
     "MD5": "^1.3.0",
     "body-parser": "^1.13.3",
     "express": "^4.13.3",
+    "geopoint": "^1.0.1",
     "http": "0.0.0",
-    "jQuery": "^1.7.4"
+    "jQuery": "^1.7.4",
     "mysql": "^2.9.0",
-    "request": "^2.67.0",
+    "request": "^2.67.0"
+  },
+  "engines": {
+    "node": "7.9.0"
   }
 }

@@ -4,13 +4,9 @@ var express = require("express"),
 
 // require models
 //tambah model
-var bookingModel = require("./model/booking.js"); 
-var userModel = require("./model/user.js");
-var alatModel = require("./model/alat.js");
-var bundleModel = require("./model/bundle.js");
-var penyewaModel = require("./model/penyewa.js");
-var transaksiAlatModel = require("./model/transaksiAlat.js");
-var transaksiBundleModel = require("./model/transaksiBundle.js");
+var datatokofisikModel = require("./model/datatokofisik.js");
+var produkModel = require("./model/produk.js");
+var customerModel = require("./model/customer.js");
 // end of require model
 
 var app = express();
@@ -43,7 +39,7 @@ connect.prototype.connectMysql = function() {
          host     : 'localhost',
          user     : 'root',
          password : '',
-         database : 'penyewaanalatcamping',
+         database : 'tokofisik',
          debug    :  false
       });
 
@@ -65,19 +61,15 @@ connect.prototype.configureExpress = function(connection) {
 
         // get an instance of the router for api routes
         var router = express.Router();
-    
+
         // apply the routes to our application with the prefix /api
         app.use('/api', router);
 
         // calling model
         //tambah model
-        var booking = new bookingModel(router,connection);
-    var user = new userModel(router, connection);
-        var alat = new alatModel(router, connection);
-        var bundle = new bundleModel(router, connection);
-        var penyewa = new penyewaModel(router, connection);
-        var transaksiAlat = new transaksiAlatModel(router, connection);
-        var transaksiBundle = new transaksiBundleModel(router, connection);
+    		var tokofisik = new datatokofisikModel(router, connection);
+        var produk = new produkModel(router, connection);
+        var customer = new customerModel(router, connection);
         // end of calling model
 
         self.startServer();
@@ -87,7 +79,7 @@ connect.prototype.configureExpress = function(connection) {
 // start server
 connect.prototype.startServer = function() {
 	app.listen(3000,function(){
-      console.log("WELCOME TO MIBD API");
+      console.log("WELCOME TO PENCARIAN TOKO FISIK");
   });
 };
 // end of start server
