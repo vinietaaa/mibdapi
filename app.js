@@ -36,10 +36,10 @@ connect.prototype.connectMysql = function() {
       var pool = mysql.createPool({
          sconnectionLimit : 100,
          multipleStatements: true,
-         host     : 'localhost',
-         user     : 'root',
-         password : '',
-         database : 'tokofisik',
+         host     : 'sql12.freemysqlhosting.net',
+         user     : 'sql12173558',
+         password : '3Ry64XvzU8',
+         database : 'sql12173558',
          debug    :  false
       });
 
